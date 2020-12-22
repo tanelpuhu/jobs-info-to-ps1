@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -13,7 +14,7 @@ import (
 func getStdin() []byte {
 	data, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
-		fmt.Printf("error getting stdin: %v", err)
+		log.Fatalf("error getting stdin: %v", err)
 	}
 	return data
 }
@@ -27,12 +28,12 @@ func main() {
 		}
 		pid, err := strconv.Atoi(pidtx)
 		if err != nil {
-			fmt.Printf("this pid is not numeric: %s (%v)", pidtx, err)
+			fmt.Printf("this pid is not numeric: %s (%v)\n", pidtx, err)
 			continue
 		} else if pid > 0 {
 			p, err := ps.FindProcess(pid)
 			if err != nil {
-				fmt.Printf("error getting process %d info: %v", pid, err)
+				fmt.Printf("error getting process %d info: %v\n", pid, err)
 			}
 			res = append(res, p.Executable())
 		}
